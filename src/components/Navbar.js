@@ -19,6 +19,12 @@ const Navbar = () => {
             <Link href="/curriculums" className="text-blue-500 mr-4 ">
              Perfil
             </Link>
+            <Link href="/register" className="text-blue-500 mr-4 ">
+             Registrarse
+            </Link>
+            <Link href="/login" className="text-blue-500 mr-4 ">
+             Login
+            </Link>
             {/* Puedes agregar más enlaces según tus necesidades */}
           </div>
         </div>
