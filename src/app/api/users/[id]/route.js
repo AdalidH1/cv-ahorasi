@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
-export function GET(){
+export function GET(req, {params}){
+    console.log(params)
     return NextResponse.json("obtener uno")
 }
 
