@@ -3,7 +3,7 @@ import React from 'react';
 
 const Home = () => (
   <>
-  <header className="bg-blue-500 text-white py-20 text-center">
+  <header className="bg-blue-500 text-white py-20 text-center rounded">
         <h1 className="text-4xl font-bold mb-4">Gestiona tus Curriculums de manera eficiente</h1>
         <p className="text-lg">Crea, personaliza y explora curriculums de manera sencilla</p>
         <button className="mt-8 bg-white text-blue-500 px-6 py-2 rounded-full font-bold hover:bg-blue-100">
@@ -11,7 +11,7 @@ const Home = () => (
         </button>
       </header>
   
-      <section className="container mx-auto py-16">
+      <section className="container mx-auto py-16 text-gray-600">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold">Por qué elegirnos</h2>
           <p className="text-gray-600">Descubre las características que hacen única nuestra aplicación</p>
