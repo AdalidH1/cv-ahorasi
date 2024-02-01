@@ -9,10 +9,8 @@ export async function POST(req) {
         const result = await conn.query(sql, params);
         
         if (result.length > 0) {
-            // Se encontraron usuarios con las credenciales proporcionadas
             return NextResponse.json({ success: true, message: "Inicio de sesión exitoso" });
         } else {
-            // No se encontraron usuarios con las credenciales proporcionadas
             return NextResponse.json({ success: false, message: "Credenciales incorrectas" });
         }
     } catch (error) {
