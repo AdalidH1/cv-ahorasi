@@ -7,7 +7,14 @@ export async function POST(req) {
     const sql = "SELECT * FROM users WHERE email = ? AND contra = ?";
     const params = [email, contra];
         const result = await conn.query(sql, params);
-        return NextResponse.json(result);
+        
+        if (result.length > 0) {
+            // Se encontraron usuarios con las credenciales proporcionadas
+            return NextResponse.json({ success: true, message: "Inicio de sesión exitoso" });
+        } else {
+            // No se encontraron usuarios con las credenciales proporcionadas
+            return NextResponse.json({ success: false, message: "Credenciales incorrectas" });
+        }
     } catch (error) {
         console.error('Error en la consulta SQL:', error);
         return NextResponse.error("Error en la consulta SQL", 500);
