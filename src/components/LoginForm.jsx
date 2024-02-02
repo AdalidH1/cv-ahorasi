@@ -23,17 +23,10 @@ const Login = () => {
 
       if (response.ok) {
         const data = await response.json();
-
-        if (data.success) {
-          // Login exitoso
-          toast.success("Exito!");
-          console.log("Login exitoso:", data);
-          router.push("/home"); // Redirige a la página de inicio después del login exitoso
-          router.refresh();
-        } else {
-          // Mostrar mensaje de error según la respuesta del servidor
-          toast.error(data.message);
-        }
+        toast.success("Exito!");
+        console.log("Login exitoso:", data);
+        router.push("/home"); // Redirige a la página de inicio después del login exitoso
+        router.refresh();
       } else {
         console.error("Error en el login:", response.statusText);
         toast.error("Error al iniciar sesión", response.statusText);
@@ -43,6 +36,7 @@ const Login = () => {
       console.error("Error en la solicitud:", error);
     }
   };
+
   return (
     <div className="max-w-md mx-auto mt-20 p-6 bg-white rounded-md shadow-lg">
       <h2 className="text-2xl font-bold mb-6 text-blue-500">

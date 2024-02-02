@@ -1,10 +1,18 @@
 // En la ruta de inicio de sesión
+import { getSession } from 'next-auth/react';
 import { conn } from "@/libs/mysql";
 import bcrypt from 'bcrypt';
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
   try {
+    const session = await getSession({ req });
+
+    // Verificar si ya hay una sesión activa
+    if (session) {
+      return NextResponse.json({ success: false, message: "Ya hay una sesión activa" });
+    }
+
     const { email, contra } = await req.json();
     const user = await conn.query("SELECT id, contra FROM users WHERE email = ?", [email]);
 

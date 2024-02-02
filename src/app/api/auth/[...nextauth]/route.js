@@ -13,27 +13,37 @@ const authOptions = {
                 password: { label: "Password", type: "password", placeholder: "password" },
             },
             async authorize(credentials, req) {
-                try {
-                    const userFound = await conn.query("SELECT id, nombre, email, contra FROM users WHERE email = ?", [credentials.email]);
+                let connection;
 
-                    if (!userFound || userFound.length === 0) {
+                try {
+                    connection = await conn.getConnection();
+                    const [rows] = await connection.query("SELECT id, nombre, email, contra FROM users WHERE email = ?", [credentials.email]);
+
+                    if (!rows || rows.length === 0) {
+                        console.error('Usuario no encontrado');
                         throw new Error('Usuario no encontrado');
                     }
 
-                    const matchPassword = await bcrypt.compare(credentials.password, userFound[0].contra);
+                    const userFound = rows[0];
+
+                    const matchPassword = await bcrypt.compare(credentials.password, userFound.contra);
 
                     if (!matchPassword) {
                         throw new Error('Contraseña incorrecta');
                     }
 
                     return {
-                        id: userFound[0].id,
-                        name: userFound[0].nombre,
-                        email: userFound[0].email
+                        id: userFound.id,
+                        name: userFound.nombre,
+                        email: userFound.email
                     };
                 } catch (error) {
                     console.error('Error en la autenticación:', error);
                     throw new Error('Error en la autenticación');
+                } finally {
+                    if (connection) {
+                        connection.release();
+                    }
                 }
             }
         })
