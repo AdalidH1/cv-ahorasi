@@ -22,12 +22,12 @@ const Navbar = () => {
             </Link>
           </div>
           <div>
-            <Link href="/viewCV" className="text-blue-500 mr-4 font-bold">
+            <Link href="/dashboard/viewCV" className="text-blue-500 mr-4 font-bold">
              Curriculums
             </Link>
             {session?.user ? (
               <>
-            <Link href="/curriculums" className="text-blue-500 mr-4 ">
+            <Link href="/" className="text-blue-500 mr-4 ">
             {session.user.name}
            </Link>
              <button onClick={logout}>Cerrar sesión</button>

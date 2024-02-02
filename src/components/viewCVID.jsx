@@ -4,6 +4,7 @@ import axios from "axios";
 import html2pdf from "html2pdf.js";
 
 const CurriculumView = ({ id }) => {
+  console.log(id, " es el valor de id")
   const generatePDF = () => {
     const element = document.getElementById("resume-preview"); // ID del contenedor de la vista previa
     html2pdf(element);
@@ -13,8 +14,10 @@ const CurriculumView = ({ id }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await axios.get(`/api/cvJoin/${id}`);
-        setCurriculum(result.data);
+        if (id !== null) {
+          const result = await axios.get(`/api/cvJoin/${id}`);
+          setCurriculum(result.data);
+        }
       } catch (error) {
         console.error("Error fetching curriculum data:", error);
       }

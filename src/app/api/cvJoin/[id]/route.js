@@ -12,9 +12,10 @@ export async function GET(req, { params }) {
     }
 
     // Ejecutamos la consulta para obtener los datos de about_me por ID
-    const result = await conn.query("SELECT * FROM joined_cv_view WHERE curri_id = ?", [
-      params.id,
-    ]);
+    const result = await conn.query(
+      "SELECT * FROM joined_cv_view WHERE curri_id = ?",
+      [params.id]
+    );
 
     // Verificamos si se encontraron datos
     if (result.length === 0) {
@@ -35,4 +36,3 @@ export async function GET(req, { params }) {
     );
   }
 }
-// UPDATE

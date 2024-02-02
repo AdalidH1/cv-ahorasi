@@ -1,15 +1,12 @@
 import CurriculumView from "@/components/viewCVID";
 
 export default function CurriculumVer({ params }) {
-  const { curri_id } = params;
-
-  // Ensure that curri_id is a valid number
-  const id = Number(curri_id);
-
+  const { id } = params;
+  const curriculumId = id ? Number(id) : null;
 
   return (
     <div>
-      <CurriculumView id={1} />
+      <CurriculumView id={curriculumId} />
     </div>
   );
 }
