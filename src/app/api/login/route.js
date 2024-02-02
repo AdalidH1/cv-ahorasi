@@ -26,3 +26,5 @@ export async function POST(req) {
     return NextResponse.error("Error en la consulta SQL", 500);
   }
 }
+
+//fsada
