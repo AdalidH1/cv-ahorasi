@@ -43,6 +43,9 @@ const Navbar = () => {
             </>
             )}
             
+            </>
+            )}
+            
             {/* Puedes agregar más enlaces según tus necesidades */}
           </div>
         </div>
