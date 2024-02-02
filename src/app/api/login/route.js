@@ -15,10 +15,10 @@ export async function POST(req) {
         // Contraseña válida, puedes permitir el inicio de sesión
         return NextResponse.json({ success: true, message: "Login exitoso" });
       } else {
-        return NextResponse.json({message: "Contraseña incorrecta"})
+        return NextResponse.json({success : false, message: "Contraseña incorrecta"})
       }
     } else {   
-        return NextResponse.json({ success: false, message: "Usuario no existente" });
+        return NextResponse.json({ success: false, message: "Usuario no existente"});
     }
 
   } catch (error) {
