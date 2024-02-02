@@ -22,11 +22,12 @@ const Navbar = () => {
             </Link>
           </div>
           <div>
-            <Link href="/viewCV" className="text-blue-500 mr-4 ">
-             Curriculums
-            </Link>
+           
             {session?.user ? (
               <>
+               <Link href="/viewCV" className="text-blue-500 mr-4 ">
+             Curriculums
+            </Link>
             <Link href="/curriculums" className="text-blue-500 mr-4 ">
             {session.user.name}
            </Link>
