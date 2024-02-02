@@ -10,40 +10,31 @@ const authOptions = {
             name: "Credentials",
             credentials: {
                 email: { label: "Email", type: "text", placeholder: "email@gmail.com" },
-                password: { label: "Password", type: "password", placeholder: "password" },
+                contra: { label: "Password", type: "password", placeholder: "password" },
             },
             async authorize(credentials, req) {
-                let connection;
-
                 try {
-                    connection = await conn.getConnection();
-                    const [rows] = await connection.query("SELECT id, nombre, email, contra FROM users WHERE email = ?", [credentials.email]);
+                    const userFound = await conn.query("SELECT * FROM users WHERE email = ?", [credentials.email]);
 
-                    if (!rows || rows.length === 0) {
-                        console.error('Usuario no encontrado');
+                    if (!userFound || userFound.length === 0) {
                         throw new Error('Usuario no encontrado');
                     }
-
-                    const userFound = rows[0];
-
-                    const matchPassword = await bcrypt.compare(credentials.password, userFound.contra);
+                    console.log('Contraseña proporcionada:', credentials.contra);
+                    console.log('Contraseña almacenada:', userFound[0].contra);
+                    const matchPassword = await bcrypt.compare(credentials.contra, userFound[0].contra);
 
                     if (!matchPassword) {
                         throw new Error('Contraseña incorrecta');
                     }
 
                     return {
-                        id: userFound.id,
-                        name: userFound.nombre,
-                        email: userFound.email
+                        id: userFound[0].id,
+                        name: userFound[0].nombre,
+                        email: userFound[0].email,
+                        contra: userFound[0].contra
                     };
                 } catch (error) {
-                    console.error('Error en la autenticación:', error);
-                    throw new Error('Error en la autenticación');
-                } finally {
-                    if (connection) {
-                        connection.release();
-                    }
+                    throw new Error('Error en la autenticación: ' + error.message);
                 }
             }
         })
@@ -53,6 +44,6 @@ const authOptions = {
     }
 }
 
-const handler = NextAuth(authOptions)
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST }

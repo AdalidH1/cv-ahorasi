@@ -19,9 +19,6 @@ export default function RootLayout({ children, pageProps }) {
           <div className="container mx-auto h-full">{children}</div>
         </div>
   <ToastContainer/>
-  {/* <RootLayout session={pageProps.session}>
-        <Component {...pageProps} />
-      </RootLayout> */}
       </body>
     </html>
     
