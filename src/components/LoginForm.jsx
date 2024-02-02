@@ -2,53 +2,43 @@
 // src/app/components/Login.jsx
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { signIn } from "next-auth/react";
 import { toast } from "react-toastify";
 
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [contra, setContra] = useState("");
+  const [error, setError] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, contra }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-
-        if (data.success) {
-          // Login exitoso
-          toast.success("Exito!");
-          console.log("Login exitoso:", data);
-          router.push("/dashboard/home"); // Redirige a la página de inicio después del login exitoso
-          router.refresh();
-        } else {
-          // Mostrar mensaje de error según la respuesta del servidor
-          toast.error(data.message);
-        }
-      } else {
-        console.error("Error en el login:", response.statusText);
-        toast.error("Error al iniciar sesión", response.statusText);
-      }
-    } catch (error) {
-      toast.error("Oops! hubo un error con el servidor");
-      console.error("Error en la solicitud:", error);
+  const onSubmit = handleSubmit(async (data) => {
+    const res = await signIn("credentials", {
+      email: data.email,
+      contra: data.contra,
+      redirect: false,
+    });
+    if (res.error) {
+      toast.error("Error al iniciar sesión")
+      setError(res.error);
+    } else {
+      toast.success("¡Exito!")
+      router.push("/dashboard/home");
+      router.refresh()
     }
-  };
+    console.log(res);
+  });
   return (
     <div className="max-w-md mx-auto mt-20 p-6 bg-white rounded-md shadow-lg">
       <h2 className="text-2xl font-bold mb-6 text-blue-500">
         Inicio de Sesión
       </h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={onSubmit}>
         <div className="mb-4">
           <label
             htmlFor="email"
@@ -58,12 +48,17 @@ const Login = () => {
           </label>
           <input
             type="email"
-            id="email"
+            {...register("email", {
+              required: {
+                value: true,
+                message: "Este campo es requerido.",
+              },
+            })}
             className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300 text-slate-600"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
           />
+          {errors.email && (
+            <span className="text-red-500 text-xs">{errors.email.message}</span>
+          )}
         </div>
         <div className="mb-4">
           <label
@@ -74,12 +69,19 @@ const Login = () => {
           </label>
           <input
             type="password"
-            id="contra"
+            {...register("contra", {
+              required: {
+                value: true,
+                message: "Este campo es requerido.",
+              },
+            })}
             className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:ring focus:border-blue-300 text-slate-600"
-            required
-            value={contra}
-            onChange={(e) => setContra(e.target.value)}
           />
+          {errors.contra && (
+            <span className="text-red-500 text-xs">
+              {errors.contra.message}
+            </span>
+          )}
         </div>
         <button
           type="submit"
