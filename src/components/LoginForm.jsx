@@ -35,9 +35,10 @@ const Login = () => {
   });
   return (
     <div className="max-w-md mx-auto mt-20 p-6 bg-white rounded-md shadow-lg">
-      <h2 className="text-2xl font-bold mb-6 text-blue-500">
+      <h2 className="text-2xl font-bold mb-4 text-blue-500">
         Inicio de Sesión
       </h2>
+        {error && <p className="text-red-500 text-xs m-2">{error}</p>}
       <form onSubmit={onSubmit}>
         <div className="mb-4">
           <label
