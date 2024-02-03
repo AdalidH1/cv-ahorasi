@@ -4,17 +4,36 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FiPhone, FiMail } from "react-icons/fi";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const TarjetaCurriculum = () => {
   const [datos, setDatos] = useState([]);
   const [curriToDelete, setCurriToDelete] = useState(null);
   const router = useRouter();
 
-  const handleEliminarCurriculumClick = async (curri_id) => {
+  const handleEliminarCurriculumClick = (curri_id) => {
+    // Trigger the confirmation toast
+    toast.warning("Are you sure you want to delete this?", {
+      autoClose: false,
+      closeOnClick: false,
+      draggable: true,
+      closeButton: ({ closeToast }) => (
+        <button
+          className="bg-red-500 text-white  rounded hover:bg-red-900"
+          onClick={() => handleDeleteConfirmed(curri_id, closeToast)}
+        >
+          Eliminar
+        </button>
+      ),
+    });
+  };
+
+  const handleDeleteConfirmed = async (curri_id, closeToast) => {
     try {
       await axios.delete(`/api/curri/${curri_id}`, {
         params: { id: curri_id },
       });
+      closeToast(); // Close the toast
       setCurriToDelete(curri_id);
     } catch (error) {
       console.error("Error al eliminar el currículum", error);
@@ -78,20 +97,19 @@ const TarjetaCurriculum = () => {
             </div>
           </div>
           <div className="flex justify-between mt-3">
+            {/* Botón para eliminar el currículum */}
+            <button
+              className="bg-slate-700 text-white py-2 px-4 rounded hover:bg-red-900"
+              onClick={() => handleEliminarCurriculumClick(item.curri_id)}
+            >
+              Eliminar
+            </button>
             {/* Botón para ver el currículum completo */}
             <button
               className="bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-500"
               onClick={() => handleVerCurriculumClick(item.curri_id)}
             >
               Ver Curriculum
-            </button>
-
-            {/* Botón para eliminar el currículum */}
-            <button
-              className="bg-red-700 text-white py-2 px-4 rounded hover:bg-red-500"
-              onClick={() => handleEliminarCurriculumClick(item.curri_id)}
-            >
-              Eliminar
             </button>
           </div>
         </div>

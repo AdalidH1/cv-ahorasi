@@ -36,6 +36,8 @@ const Navbar = () => {
             </Link>
             <Link href="/curriculums" className="text-blue-500 mr-4 ">
             {session.user.name}
+            {" "}
+            {session.user.id}
            </Link>
              <button onClick={logout} className="text-blue-500 mr-4 font-bold">Cerrar sesión</button>
              </>
