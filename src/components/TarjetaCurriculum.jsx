@@ -23,7 +23,7 @@ const TarjetaCurriculum = () => {
   };
 
   const handleVerCurriculumClick = (curri_id) => {
-    router.push(`/dashboard/viewCV/${curri_id}`);
+    router.push(`/viewCV/${curri_id}`);
   };
   
 

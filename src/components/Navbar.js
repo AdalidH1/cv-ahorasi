@@ -17,20 +17,27 @@ const Navbar = () => {
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
           <div>
-            <Link href="/" className="text-white text-xl font-bold bg-blue-500 rounded-lg p-8 hover:bg-blue-600">
+          {session?.user ? (
+            <Link href="/dashboard/home" className="text-white text-xl font-bold bg-blue-500 rounded-lg p-8 hover:bg-blue-600">
             CVApp
             </Link>
+            ) : (
+            <Link href="#" className="text-white text-xl font-bold bg-blue-500 rounded-lg p-8 hover:bg-blue-600">
+            CVApp
+            </Link>
+            )}
           </div>
           <div>
-            <Link href="/dashboard/viewCV" className="text-blue-500 mr-4 font-bold">
-             Curriculums
-            </Link>
+           
             {session?.user ? (
               <>
+               <Link href="/viewCV" className="text-blue-500 mr-4 ">
+             Curriculums
+            </Link>
             <Link href="/" className="text-blue-500 mr-4 ">
             {session.user.name}
            </Link>
-             <button onClick={logout}>Cerrar sesión</button>
+             <button onClick={logout} className="text-blue-500 mr-4 font-bold">Cerrar sesión</button>
              </>
             ) : (
               <>
@@ -40,9 +47,6 @@ const Navbar = () => {
             <Link href="/login" className="text-blue-500 mr-4 ">
              Login
             </Link>
-            </>
-            )}
-            
             </>
             )}
             
