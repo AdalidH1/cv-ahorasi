@@ -9,19 +9,26 @@ export async function GET(req, { params }) {
 }
 export async function DELETE(req, { params }) {
   try {
-    const { id_curri } = await req.json();
-    console.log("DELETE id_curri:", id_curri);
-    const result = await conn.query("DELETE FROM curri WHERE id = ?", [id_curri]);
-    console.log("DELETE result:", result);
-    return new Response(JSON.stringify({ message: "Curriculum deleted successfully" }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    const result = await conn.query("DELETE FROM curri WHERE id = ?", [
+      params.id,
+    ]);
+    if (result.affectedRows === 0) {
+      return NextResponse.json(
+        {
+          message: "Curriculum no encontrado",
+        },
+        {
+          status: 204,
+        }
+      );
+    }
+    return new Response(null, { status: 204 });
   } catch (error) {
-    console.error("DELETE error:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    return NextResponse.json(
+      {
+        message: error.message,
+      },
+      { status: 500 }
+    );
   }
 }
