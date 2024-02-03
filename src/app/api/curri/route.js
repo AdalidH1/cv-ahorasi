@@ -3,21 +3,15 @@ import { conn } from "@/libs/mysql";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const result = await conn.query("SELECT * FROM curri");
-  return NextResponse.json(result);
+  try {
+    const result = await conn.query("SELECT * FROM curri");
+    console.log("GET result:", result); // Agrega este mensaje de depuración
+    return NextResponse.json(result);
+  } catch (error) {
+    console.error("GET error:", error); // Agrega este mensaje de depuración
+    return NextResponse.json({
+      message: error.message
+    });
+  }
 }
 
-export async function DELETE(req) {
-    try {
-        const {id_curri} = await req.json()
-      const result = await conn.query("DELETE FROM curri WHERE id = ?", [id_curri]);
-
-        return NextResponse.json(result)
-    
-      
-      } catch (error) {
-        return NextResponse.json({
-          message: error.message
-        })
-      }
-}

@@ -7,14 +7,15 @@ import { useRouter } from "next/navigation";
 
 const TarjetaCurriculum = () => {
   const [datos, setDatos] = useState([]);
+  const [curriToDelete, setCurriToDelete] = useState(null);
   const router = useRouter();
 
   const handleEliminarCurriculumClick = async (curri_id) => {
     try {
-      await axios.delete(`/api/curri/${curri_id}`);
-      // Actualiza tus datos o realiza otras acciones después de la eliminación si es necesario
-      // Puedes realizar una nueva solicitud GET para actualizar la lista de currículos
-      setDatos(response.data);
+      await axios.delete(`/api/curri/${curri_id}`, {
+        params: { id: curri_id },
+      });
+      setCurriToDelete(curri_id);
     } catch (error) {
       console.error("Error al eliminar el currículum", error);
     }
@@ -25,7 +26,7 @@ const TarjetaCurriculum = () => {
     axios.get("/api/cvJoin").then((response) => {
       setDatos(response.data);
     });
-  }, []);
+  }, [datos, curriToDelete]);
 
   // Función para obtener las iniciales del nombre y apellido
   const obtenerIniciales = (nombre, apellido) => {
@@ -37,12 +38,20 @@ const TarjetaCurriculum = () => {
   const handleVerCurriculumClick = (curri_id) => {
     router.push(`/viewCV/${curri_id}`);
   };
-  
+  if (curriToDelete) {
+    setDatos((prevDatos) =>
+      prevDatos.filter((item) => item.curri_id !== curriToDelete)
+    );
+    setCurriToDelete(null);
+  }
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {datos.map((item) => (
-        <div key={item.curri_id} className="bg-slate-200 p-4 rounded-md shadow-lg">
+        <div
+          key={item.curri_id}
+          className="bg-slate-200 p-4 rounded-md shadow-lg"
+        >
           <div className="flex justify-left items-center mb-4">
             {/* Iniciales */}
             <div className="relative inline-flex items-center justify-center w-16 h-16 overflow-hidden bg-slate-200 rounded-full dark:bg-slate-600">
