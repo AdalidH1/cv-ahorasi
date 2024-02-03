@@ -34,11 +34,7 @@ const Navbar = () => {
                <Link href="/viewCV" className="text-blue-500 mr-4 ">
              Curriculums
             </Link>
-<<<<<<< HEAD
             <Link href="/curriculums" className="text-blue-500 mr-4 ">
-=======
-            <Link href="/" className="text-blue-500 mr-4 ">
->>>>>>> 58fedc76605303fba6215f48c4179b37054d6a90
             {session.user.name}
            </Link>
              <button onClick={logout} className="text-blue-500 mr-4 font-bold">Cerrar sesión</button>

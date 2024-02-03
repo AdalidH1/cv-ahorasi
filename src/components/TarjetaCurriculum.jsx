@@ -1,3 +1,4 @@
+// TarjetaCurriculum.jsx
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -7,6 +8,17 @@ import { useRouter } from "next/navigation";
 const TarjetaCurriculum = () => {
   const [datos, setDatos] = useState([]);
   const router = useRouter();
+
+  const handleEliminarCurriculumClick = async (curri_id) => {
+    try {
+      await axios.delete(`/api/curri/${curri_id}`);
+      // Actualiza tus datos o realiza otras acciones después de la eliminación si es necesario
+      // Puedes realizar una nueva solicitud GET para actualizar la lista de currículos
+      setDatos(response.data);
+    } catch (error) {
+      console.error("Error al eliminar el currículum", error);
+    }
+  };
 
   useEffect(() => {
     // Realiza la solicitud GET a la ruta de la API
@@ -56,7 +68,7 @@ const TarjetaCurriculum = () => {
               <p className="text-lg text-gray-700">{item.email}</p>
             </div>
           </div>
-          <div className="flex flex-col items-end mt-3">
+          <div className="flex justify-between mt-3">
             {/* Botón para ver el currículum completo */}
             <button
               className="bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-500"
@@ -64,12 +76,19 @@ const TarjetaCurriculum = () => {
             >
               Ver Curriculum
             </button>
+
+            {/* Botón para eliminar el currículum */}
+            <button
+              className="bg-red-700 text-white py-2 px-4 rounded hover:bg-red-500"
+              onClick={() => handleEliminarCurriculumClick(item.curri_id)}
+            >
+              Eliminar
+            </button>
           </div>
         </div>
       ))}
     </div>
   );
 };
-
 
 export default TarjetaCurriculum;
