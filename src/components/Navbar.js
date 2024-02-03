@@ -3,11 +3,13 @@
 import React from 'react';
 import Link from 'next/link';
 import { SessionProvider, signOut, useSession } from 'next-auth/react';
+import useUser from '@/hooks/useUser';
 
 
 const Navbar = () => {
   const {data: session} = useSession()
   console.log(session)
+  const userId = useUser()
   
   async function logout() {
     await signOut();
@@ -37,7 +39,7 @@ const Navbar = () => {
             <Link href="/curriculums" className="text-blue-500 mr-4 ">
             {session.user.name}
             {" "}
-            {session.user.id}
+            {userId}
            </Link>
              <button onClick={logout} className="text-blue-500 mr-4 font-bold">Cerrar sesión</button>
              </>
