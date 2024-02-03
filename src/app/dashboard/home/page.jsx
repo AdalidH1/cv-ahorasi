@@ -1,14 +1,18 @@
 // src/app/Home.jsx
 import React from 'react';
 
+
 const Home = () => (
+  
   <>
   <header className="bg-blue-500 text-white py-20 text-center rounded">
         <h1 className="text-4xl font-bold mb-4">Gestiona tus Curriculums de manera eficiente</h1>
         <p className="text-lg">Crea, personaliza y explora curriculums de manera sencilla</p>
         <button className="mt-8 bg-white text-blue-500 px-6 py-2 rounded-full font-bold hover:bg-blue-100">
-          Comienza Ahora
-        </button>
+  <a href="/dashboard/form_cv" className="text-blue-500 no-underline">
+    Comenzar Ahora
+  </a>
+</button>
       </header>
   
       <section className="container mx-auto py-16 text-gray-600">
