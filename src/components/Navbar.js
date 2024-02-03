@@ -1,12 +1,15 @@
 // components/Navbar.js
-"use client";
-import React from "react";
-import Link from "next/link";
-import { SessionProvider, signOut, useSession } from "next-auth/react";
+"use client"
+import React from 'react';
+import Link from 'next/link';
+import { SessionProvider, signOut, useSession } from 'next-auth/react';
+import useUser from '@/hooks/useUser';
+
 
 const Navbar = () => {
   const { data: session } = useSession();
   console.log(session);
+  const userId = useUser()
 
   async function logout() {
     await signOut();
@@ -53,6 +56,8 @@ const Navbar = () => {
                 </button>
                 <Link href="/" className="text-blue-500 ">
                   {session.user.name}
+                  {" "}
+            {userId}
                 </Link>
               </>
             ) : (

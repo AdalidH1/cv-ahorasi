@@ -4,21 +4,39 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FiPhone, FiMail } from "react-icons/fi";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 const TarjetaCurriculum = () => {
   const [datos, setDatos] = useState([]);
+  const [curriToDelete, setCurriToDelete] = useState(null);
   const router = useRouter();
 
-  const handleEliminarCurriculumClick = async (curri_id) => {
+  const handleEliminarCurriculumClick = (curri_id) => {
+    // Trigger the confirmation toast
+    toast.warning("Are you sure you want to delete this?", {
+      autoClose: false,
+      closeOnClick: false,
+      draggable: true,
+      closeButton: ({ closeToast }) => (
+        <button
+          className="bg-red-500 text-white  rounded hover:bg-red-900"
+          onClick={() => handleDeleteConfirmed(curri_id, closeToast)}
+        >
+          Eliminar
+        </button>
+      ),
+    });
+  };
+
+  const handleDeleteConfirmed = async (curri_id, closeToast) => {
     try {
-      await axios.delete(`/api/cv/${curri_id}`);
-      // Actualiza tus datos o realiza otras acciones después de la eliminación si es necesario
-      // Puedes realizar una nueva solicitud GET para actualizar la lista de currículos
-      setDatos(response.data);
-      location.reload()
+      await axios.delete(`/api/curri/${curri_id}`, {
+        params: { id: curri_id },
+      });
+      closeToast(); // Close the toast
+      setCurriToDelete(curri_id);
     } catch (error) {
       console.error("Error al eliminar el currículum", error);
-      location.reload()
     }
   };
 
@@ -27,7 +45,7 @@ const TarjetaCurriculum = () => {
     axios.get("/api/cvJoin").then((response) => {
       setDatos(response.data);
     });
-  }, []);
+  }, [datos, curriToDelete]);
 
   // Función para obtener las iniciales del nombre y apellido
   const obtenerIniciales = (nombre, apellido) => {
@@ -39,12 +57,20 @@ const TarjetaCurriculum = () => {
   const handleVerCurriculumClick = (curri_id) => {
     router.push(`/viewCV/${curri_id}`);
   };
-  
+  if (curriToDelete) {
+    setDatos((prevDatos) =>
+      prevDatos.filter((item) => item.curri_id !== curriToDelete)
+    );
+    setCurriToDelete(null);
+  }
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {datos.map((item) => (
-        <div key={item.curri_id} className="bg-slate-200 p-4 rounded-md shadow-lg">
+        <div
+          key={item.curri_id}
+          className="bg-slate-200 p-4 rounded-md shadow-lg"
+        >
           <div className="flex justify-left items-center mb-4">
             {/* Iniciales */}
             <div className="relative inline-flex items-center justify-center w-16 h-16 overflow-hidden bg-slate-200 rounded-full dark:bg-slate-600">
@@ -71,6 +97,13 @@ const TarjetaCurriculum = () => {
             </div>
           </div>
           <div className="flex justify-between mt-3">
+            {/* Botón para eliminar el currículum */}
+            <button
+              className="bg-slate-700 text-white py-2 px-4 rounded hover:bg-red-900"
+              onClick={() => handleEliminarCurriculumClick(item.curri_id)}
+            >
+              Eliminar
+            </button>
             {/* Botón para ver el currículum completo */}
             <button
               className="bg-blue-700 text-white py-2 px-4 rounded hover:bg-blue-500"
