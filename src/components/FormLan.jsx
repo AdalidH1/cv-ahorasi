@@ -80,6 +80,7 @@ const FormLan = () => {
           onChange={(e) => setNivel(e.target.value)}
         />
       </div>
+      <div className='flex justify-between'>
       <button
         type="submit"
         className="w-32 bg-blue-500 text-white py-2 rounded-sm font-bold hover:bg-blue-600"
@@ -94,6 +95,7 @@ const FormLan = () => {
       >
         Siguiente
       </button>
+      </div>
     </form>
   </div>
   );
