@@ -185,13 +185,8 @@ const FormAbout = () => {
           onChange={(e) => setDescripcion(e.target.value)}
         />
       </div>
-      <button
-        type="submit"
-        className="w-32 bg-blue-500 text-white py-2 rounded-sm font-bold hover:bg-blue-600"
-        onClick={(e) => handleRegister(e, false)}
-      >
-        Agregar más
-      </button>
+      <div className='flex justify-end'>
+ 
       <button
         type="submit"
         className="w-32 bg-blue-500 text-white py-2 rounded-sm font-bold hover:bg-blue-600"
@@ -199,6 +194,8 @@ const FormAbout = () => {
       >
         Siguiente
       </button>
+      </div>
+     
     </form>
   </div>
   );
