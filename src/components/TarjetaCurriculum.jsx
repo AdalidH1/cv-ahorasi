@@ -22,11 +22,10 @@ const TarjetaCurriculum = () => {
     return `${primeraLetraNombre}${primeraLetraApellido}`;
   };
 
-  // Function to handle "Ver Curriculum" button click
   const handleVerCurriculumClick = (curri_id) => {
-    // Redirect to CurriculumVer page with the specific id
     router.push(`/viewCV/${curri_id}`);
   };
+  
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
