@@ -7,10 +7,11 @@ const authOptions = {
     secret: process.env.NEXTAUTH_SECRET,
     providers: [
         CredentialsProvider({
-            name: "Credentials",
+            name: "credentials",
             credentials: {
-                email: { label: "Email", type: "text", placeholder: "email@gmail.com" },
+                id : { label: "ID", type: "text", placeholder: "id" },
                 contra: { label: "Password", type: "password", placeholder: "password" },
+                email: { label: "Email", type: "text", placeholder: "email@gmail.com" },
             },
             async authorize(credentials, req) {
                 try {
@@ -26,12 +27,12 @@ const authOptions = {
                     if (!matchPassword) {
                         throw new Error('Contraseña incorrecta');
                     }
+                    
 
                     return {
-                        id: userFound[0].id,
+                        id: credentials.id,
                         name: userFound[0].nombre,
-                        email: userFound[0].email,
-                        contra: userFound[0].contra
+                        email: userFound[0].email
                     };
                 } catch (error) {
                     throw new Error('Error en la autenticación: ' + error.message);
@@ -39,9 +40,19 @@ const authOptions = {
             }
         })
     ],
+    // callbacks: {
+    //     session: async ({ session, user }) => {
+    //       if (session.user) {
+    //         session.user.id = user.id;
+    //         session.user.name = user.name;
+    //         session.user.email = user.email;
+    //       }
+    //       return session;
+    //     },
+    // },
     pages: {
         signIn: '/login',
-    }
+    },
 }
 
 const handler = NextAuth(authOptions);

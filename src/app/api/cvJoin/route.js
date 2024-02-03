@@ -1,18 +1,21 @@
-// Importa las dependencias necesarias
+// Import dependencies
 import { conn } from "@/libs/mysql";
 import { NextResponse } from "next/server";
 
-// Define la función GET para obtener datos desde la vista
+// Define the GET function to fetch data from the view
 export async function GET() {
     try {
-        // Ejecuta la consulta para obtener datos desde la vista_curri_about_me
+        // Execute the query to fetch data from vista_curri_about_me
         const result = await conn.query("SELECT * FROM vista_curri_about_me");
 
-        // Devuelve los datos en formato JSON
+        // // Map the result to include curri_id
+        // const dataWithCurriId = result.map(item => ({ ...item, curri_id: item.curri_id }));
+
+        // Return the data in JSON format
         return NextResponse.json(result);
     } catch (error) {
-        // Maneja cualquier error que pueda ocurrir durante la consulta
-        console.error("Error al obtener datos de la vista_curri_about_me:", error);
-        return NextResponse.json({ error: "Error al obtener datos de la vista_curri_about_me" }, { status: 500 });
+        // Handle any errors that may occur during the query
+        console.error("Error fetching data from vista_curri_about_me:", error);
+        return NextResponse.json({ error: "Error fetching data from vista_curri_about_me" }, { status: 500 });
     }
 }

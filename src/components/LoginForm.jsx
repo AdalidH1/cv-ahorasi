@@ -21,6 +21,7 @@ const Login = () => {
     const res = await signIn("credentials", {
       email: data.email,
       contra: data.contra,
+      id: data.id,
       redirect: false,
     });
     if (res.error) {
