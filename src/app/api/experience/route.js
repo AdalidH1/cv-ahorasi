@@ -13,3 +13,34 @@ export async function GET() {
         })
     }
 }
+
+export async function POST(req) {
+    try {
+      const {puesto, empresa, localidad, fecha_inicio, fecha_fin, descripcion, id_curri} = await req.json()
+    const result = await conn.query("INSERT INTO experiencia SET ?", {
+      id_curri,  
+      puesto,
+      empresa,
+      localidad,
+      fecha_inicio,
+      fecha_fin,
+      descripcion
+    })
+  
+    return NextResponse.json({
+        id_curri,  
+        puesto,
+      empresa,
+      localidad,
+      fecha_inicio,
+      fecha_fin,
+      descripcion,
+        id: result.insertId
+        
+    })
+    } catch (error) {
+      return NextResponse.json({
+        message: error.message
+      })
+    }
+  }

@@ -13,3 +13,25 @@ export async function GET() {
         })
     }
 }
+
+
+export async function POST(req) {
+    try {
+      const {pasatiempo, id_curri} = await req.json()
+    const result = await conn.query("INSERT INTO pasatiempos SET ?", {
+      id_curri,  
+      pasatiempo
+    })
+  
+    return NextResponse.json({
+        id_curri,  
+        pasatiempo,
+        id: result.insertId
+        
+    })
+    } catch (error) {
+      return NextResponse.json({
+        message: error.message
+      })
+    }
+  }

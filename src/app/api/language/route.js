@@ -13,3 +13,26 @@ export async function GET() {
         })
     }
 }
+
+export async function POST(req) {
+    try {
+      const {idioma, nivel, id_curri} = await req.json()
+    const result = await conn.query("INSERT INTO idioma SET ?", {
+      id_curri,  
+      idioma,
+      nivel
+    })
+  
+    return NextResponse.json({
+        id_curri,  
+        idioma,
+        nivel,
+        id: result.insertId
+        
+    })
+    } catch (error) {
+      return NextResponse.json({
+        message: error.message
+      })
+    }
+  }
