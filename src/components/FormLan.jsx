@@ -21,7 +21,7 @@ const FormLan = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id_curri:"1",idioma, nivel  }),
+        body: JSON.stringify({ id_curri:"6",idioma, nivel  }),
       });
 
       if (response.ok) {

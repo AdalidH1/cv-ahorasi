@@ -24,7 +24,7 @@ const FormExp = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id_curri:"1",puesto, empresa, localidad, fecha_inicio, fecha_fin, descripcion }),
+        body: JSON.stringify({ id_curri:"6",puesto, empresa, localidad, fecha_inicio, fecha_fin, descripcion }),
       });
 
       if (response.ok) {

@@ -20,7 +20,7 @@ const FormHobi = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id_curri:"1",pasatiempo  }),
+        body: JSON.stringify({ id_curri:"6",pasatiempo  }),
       });
 
       if (response.ok) {

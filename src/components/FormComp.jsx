@@ -21,7 +21,7 @@ const FormComp = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id_curri:"1",habilidad, descripcion  }),
+        body: JSON.stringify({ id_curri:"6",habilidad, descripcion  }),
       });
 
       if (response.ok) {

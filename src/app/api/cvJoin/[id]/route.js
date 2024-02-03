@@ -6,12 +6,7 @@ import { NextResponse } from "next/server";
 export async function GET(req, { params }) {
   try {
     // Extraemos el ID de los parámetros de la solicitud
-    const { id } = params;
-
-    // Verificamos que el ID sea un número entero positivo
-    if (!/^\d+$/.test(id)) {
-      return NextResponse.json({ error: "ID inválido" }, { status: 400 });
-    }
+   
 
     // Ejecutamos la consulta para obtener los datos de joined_cv_view por ID
     const result = await conn.query(

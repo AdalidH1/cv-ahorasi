@@ -24,7 +24,7 @@ const FormEduc = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id_curri:"1",titulo, institucion, localidad, fecha_inicio, fecha_fin, descripcion }),
+        body: JSON.stringify({ id_curri:"6",titulo, institucion, localidad, fecha_inicio, fecha_fin, descripcion }),
       });
 
       if (response.ok) {
