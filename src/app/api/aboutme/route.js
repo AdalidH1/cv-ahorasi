@@ -15,30 +15,41 @@ export async function GET() {
     }
 }
 
-export async function POST({ body }) {
+export async function POST(req) {
     try {
-        // Extraemos los datos del cuerpo de la solicitud
-        const { nombre, apellido, email, telefono, direccion, cp, fecha_nacimiento, foto, ocupacion, descripcion } = body;
-
-        // Ejecutamos la consulta para insertar datos en la tabla about_me
-        await conn.query("INSERT INTO about_me SET ?", {
-            nombre,
-            apellido,
-            email,
-            telefono,
-            direccion,
-            cp,
-            fecha_nacimiento,
-            foto,
-            ocupacion,
-            descripcion
-        });
-
-        // Devolvemos una respuesta JSON exitosa
-        return NextResponse.json({ message: "Datos insertados correctamente" });
+      const {nombre, apellido, email, telefono, direccion, cp, fecha_nacimiento, foto, ocupacion, descripcion, id_curri} = await req.json()
+    const result = await conn.query("INSERT INTO about_me SET ?", {
+      id_curri,  
+      nombre,
+      apellido,
+      email,
+      telefono,
+      direccion,
+      cp,
+      fecha_nacimiento,
+      foto,
+      ocupacion,
+      descripcion
+    })
+  
+    return NextResponse.json({
+        id_curri,  
+        nombre,
+        apellido,
+        email,
+        telefono,
+        direccion,
+        cp,
+        fecha_nacimiento,
+        foto,
+        ocupacion,
+        descripcion,
+        id: result.insertId
+        
+    })
     } catch (error) {
-        // Manejamos cualquier error que pueda ocurrir durante la inserción
-        console.error("Error al insertar datos en about_me:", error);
-        return NextResponse.json({ error: "Error al insertar datos en about_me" }, { status: 500 });
+      return NextResponse.json({
+        message: error.message
+      })
     }
-}
+  }
