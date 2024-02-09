@@ -1,4 +1,3 @@
-// TarjetaCurriculum.jsx
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -9,22 +8,39 @@ const TarjetaCurriculum = () => {
   const [datos, setDatos] = useState([]);
   const router = useRouter();
 
-  const handleEliminarCurriculumClick = async (curri_id) => {
+  const [datosCurriculums, setDatosCurriculums] = useState(datos);
+
+  const obtenerDatos = async () => {
+    const response = await fetch("/api/curri");
+    const datos = await response.json();
+    setDatosCurriculums(datos);
+  };
+
+  useEffect(() => {
+    obtenerDatos();
+  }, []);
+
+  const handleEliminarCurriculumClick = async (id_curri) => {
     try {
-      await axios.delete(`/api/curri/${curri_id}`);
-      // Actualiza tus datos o realiza otras acciones después de la eliminación si es necesario
-      // Puedes realizar una nueva solicitud GET para actualizar la lista de currículos
-      setDatos(response.data);
+      await fetch(`/api/curri/${id_curri}`, { method: "DELETE" });
+      setDatosCurriculums(datosCurriculums.filter((item) => item.curri_id !== id_curri));
     } catch (error) {
-      console.error("Error al eliminar el currículum", error);
+      console.error("Error al eliminar el currículum:", error);
     }
   };
 
   useEffect(() => {
     // Realiza la solicitud GET a la ruta de la API
-    axios.get("/api/cvJoin").then((response) => {
-      setDatos(response.data);
-    });
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/api/cvJoin");
+        setDatos(response.data);
+      } catch (error) {
+        console.error("Error al obtener datos del currículum", error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   // Función para obtener las iniciales del nombre y apellido
@@ -37,7 +53,6 @@ const TarjetaCurriculum = () => {
   const handleVerCurriculumClick = (curri_id) => {
     router.push(`/viewCV/${curri_id}`);
   };
-  
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
