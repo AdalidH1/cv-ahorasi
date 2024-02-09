@@ -2,7 +2,7 @@ import { conn } from "@/libs/mysql";
 import { NextResponse } from "next/server";
 import bcrypt from 'bcrypt';
 
-export async function POST(req) {
+export async function POST(req, {params}) {
   try {
     // Obtén los datos del cuerpo de la solicitud
     const { nombre, email, contra } = await req.json();
@@ -22,6 +22,18 @@ export async function POST(req) {
       email: email,
       contra: hashedPassword,
     });
+
+    // if(result) {
+    //   // Obtiene el ID del usuario recién creado
+    //   const userId = result.insertId;
+
+    //   // Inserta en la tabla 'curri' utilizando el ID del usuario
+    //   const res = await conn.query("INSERT INTO curri SET ?", {
+    //     id_user: userId,
+    //   });
+
+    //   return NextResponse.json(res);
+    // }
 
     // Devuelve la información del usuario registrado
     return NextResponse.json({

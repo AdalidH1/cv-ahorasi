@@ -24,7 +24,7 @@ const FormEduc = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id_curri:"1",titulo, institucion, localidad, fecha_inicio, fecha_fin, descripcion }),
+        body: JSON.stringify({ id_curri:"6",titulo, institucion, localidad, fecha_inicio, fecha_fin, descripcion }),
       });
 
       if (response.ok) {
@@ -144,6 +144,7 @@ const FormEduc = () => {
           onChange={(e) => setDescripcion(e.target.value)}
         />
       </div>
+      <div className='flex justify-between'>
       <button
         type="submit"
         className="w-32 bg-blue-500 text-white py-2 rounded-sm font-bold hover:bg-blue-600"
@@ -158,6 +159,7 @@ const FormEduc = () => {
       >
         Siguiente
       </button>
+      </div>
     </form>
   </div>
   );

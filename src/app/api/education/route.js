@@ -16,7 +16,7 @@ export async function GET() {
 
 export async function POST(req) {
     try {
-      const {titulo, institucio, localidad, fecha_inicio, fecha_fin, descripcion, id_curri} = await req.json()
+      const {titulo, institucion, localidad, fecha_inicio, fecha_fin, descripcion, id_curri} = await req.json()
     const result = await conn.query("INSERT INTO educacion SET ?", {
       id_curri,  
       titulo,

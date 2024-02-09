@@ -20,7 +20,7 @@ const FormHobi = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id_curri:"1",pasatiempo  }),
+        body: JSON.stringify({ id_curri:"6",pasatiempo  }),
       });
 
       if (response.ok) {
@@ -66,7 +66,7 @@ const FormHobi = () => {
           onChange={(e) => setPasatiempo(e.target.value)}
         />
       </div>
-      
+      <div className='flex justify-between'>
       <button
         type="submit"
         className="w-32 bg-blue-500 text-white py-2 rounded-sm font-bold hover:bg-blue-600"
@@ -79,8 +79,9 @@ const FormHobi = () => {
         className="w-32 bg-blue-500 text-white py-2 rounded-sm font-bold hover:bg-blue-600"
         onClick={(e) => handleRegister(e, true)}
       >
-        Siguiente
+        Finalizar
       </button>
+      </div>
     </form>
   </div>
   );
