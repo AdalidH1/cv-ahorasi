@@ -5,6 +5,7 @@ import axios from "axios";
 import { FiPhone, FiMail } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import Search from "./Search";
 
 const TarjetaCurriculum = () => {
   const [datos, setDatos] = useState([]);
@@ -66,6 +67,7 @@ const TarjetaCurriculum = () => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <Search />
       {datos.map((item) => (
         <div
           key={item.curri_id}
