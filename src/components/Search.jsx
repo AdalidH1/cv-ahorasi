@@ -3,7 +3,7 @@ import { useState } from 'react';
 const Search = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
-
+  
   const handleSearch = async () => {
     try {
       const response = await fetch(`/api/search?query=${query}`);
