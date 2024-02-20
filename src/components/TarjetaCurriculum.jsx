@@ -1,8 +1,8 @@
-"use client";
+"use client"
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FiPhone, FiMail } from "react-icons/fi";
-import { useRouter } from "next/router"; // Cambiado de "next/navigation" a "next/router"
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 const TarjetaCurriculum = () => {
@@ -23,11 +23,12 @@ const TarjetaCurriculum = () => {
   const obtenerIniciales = (nombre, apellido) => {
     const primeraLetraNombre = nombre.charAt(0).toUpperCase();
     const primeraLetraApellido = apellido.charAt(0).toUpperCase();
-    return `${primeraLetraNombre}${primeraLetraApellido}`; // Corregido el retorno de la cadena
+    return `${primeraLetraNombre}${primeraLetraApellido}`;
+
   };
 
   const handleVerCurriculumClick = (curri_id) => {
-    router.push(`/viewCV/${curri_id}`); // Corregido el formato de la ruta
+    router.push(`/viewCV/${curri_id}`);
   };
 
   const handleEliminarCurriculumClick = (curri_id) => {
@@ -49,7 +50,7 @@ const TarjetaCurriculum = () => {
 
   const handleDeleteConfirmed = async (curri_id, closeToast) => {
     try {
-      await axios.delete(`/api/curri/${curri_id}`, { // Corregido el formato de la ruta
+      await axios.delete(`/api/curri/${curri_id}`, {
         params: { id: curri_id },
       });
       closeToast(); // Close the toast
@@ -61,7 +62,7 @@ const TarjetaCurriculum = () => {
 
   // Filtrar los datos según el término de búsqueda
   const filteredData = datos.filter((item) =>
-    `${item.nombre} ${item.apellido}`.toLowerCase().includes(searchTerm.toLowerCase()) // Corregido la interpolación de cadenas
+    `${item.nombre} ${item.apellido}`.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -96,6 +97,8 @@ const TarjetaCurriculum = () => {
         </div>
       </div>
 
+
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {filteredData.map((item) => (
           <div
@@ -111,7 +114,7 @@ const TarjetaCurriculum = () => {
               </div>
               {/* Ocupación */}
               <div className="ml-4 text-gray-600">
-                <h2 className="text-xl font-bold mb-2">{`${item.nombre} ${item.apellido}`}</h2> // Corregido la interpolación de cadenas
+                <h2 className="text-xl font-bold mb-2">{`${item.nombre} ${item.apellido}`}</h2>
                 {item.ocupacion}
               </div>
             </div>
