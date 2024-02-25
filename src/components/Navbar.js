@@ -1,15 +1,36 @@
 // components/Navbar.js
-"use client"
-import React from 'react';
-import Link from 'next/link';
-import { SessionProvider, signOut, useSession } from 'next-auth/react';
-import useUser from '@/hooks/useUser';
-
+"use client";
+import React from "react";
+import Link from "next/link";
+import { SessionProvider, signOut, useSession } from "next-auth/react";
+import useUser from "@/hooks/useUser";
+import { useEffect } from "react";
+import { gsap } from "gsap";
 
 const Navbar = () => {
   const { data: session } = useSession();
   console.log(session);
-  const userId = useUser()
+  const userId = useUser();
+
+  useEffect(() => {
+
+    const logo = document.getElementById("logo");
+  
+    gsap.from(logo, {
+      duration: 2,
+      x: -200, // empieza en x:-100
+      ease: "power3.inOut" 
+    });
+  
+    gsap.to(logo, {
+      x: 0,
+      duration: 1, 
+      scale: 1.2, // pulse zoom
+      repeat: 1,
+      ease: "sine.inOut"
+    });
+  
+  }, []);
 
   async function logout() {
     await signOut();
@@ -27,12 +48,9 @@ const Navbar = () => {
                 CVApp
               </Link>
             ) : (
-              <Link
-                href="#"
-                className="text-white text-xl font-bold bg-blue-500 rounded-lg p-8 hover:bg-blue-600"
-              >
-                CVApp
-              </Link>
+            <div id="logo" className="text-white text-xl font-bold bg-blue-500 rounded-lg p-8 hover:bg-blue-600">
+              CVApp
+            </div>
             )}
           </div>
           <div>
@@ -55,9 +73,7 @@ const Navbar = () => {
                   Cerrar sesión
                 </button>
                 <Link href="/" className="text-blue-500 ">
-                  {session.user.name}
-                  {" "}
-            {userId}
+                  {session.user.name} {userId}
                 </Link>
               </>
             ) : (

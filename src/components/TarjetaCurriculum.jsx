@@ -1,51 +1,27 @@
-// TarjetaCurriculum.jsx
 "use client";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FiPhone, FiMail } from "react-icons/fi";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const TarjetaCurriculum = () => {
   const [datos, setDatos] = useState([]);
-  const [curriToDelete, setCurriToDelete] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(""); // Estado para el término de búsqueda
   const router = useRouter();
-
-  const handleEliminarCurriculumClick = (curri_id) => {
-    // Trigger the confirmation toast
-    toast.warning("Are you sure you want to delete this?", {
-      autoClose: false,
-      closeOnClick: false,
-      draggable: true,
-      closeButton: ({ closeToast }) => (
-        <button
-          className="bg-red-500 text-white  rounded hover:bg-red-900"
-          onClick={() => handleDeleteConfirmed(curri_id, closeToast)}
-        >
-          Eliminar
-        </button>
-      ),
-    });
-  };
-
-  const handleDeleteConfirmed = async (curri_id, closeToast) => {
-    try {
-      await axios.delete(`/api/curri/${curri_id}`, {
-        params: { id: curri_id },
-      });
-      closeToast(); // Close the toast
-      setCurriToDelete(curri_id);
-    } catch (error) {
-      console.error("Error al eliminar el currículum", error);
-    }
-  };
 
   useEffect(() => {
     // Realiza la solicitud GET a la ruta de la API
-    axios.get("/api/cvJoin").then((response) => {
-      setDatos(response.data);
-    });
-  }, [datos, curriToDelete]);
+    axios
+      .get("/api/cvJoin")
+      .then((response) => {
+        setDatos(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data from API:", error);
+      });
+  }, []); // Empty dependency array so useEffect runs only once on component mount
 
   // Función para obtener las iniciales del nombre y apellido
   const obtenerIniciales = (nombre, apellido) => {
@@ -57,12 +33,51 @@ const TarjetaCurriculum = () => {
   const handleVerCurriculumClick = (curri_id) => {
     router.push(`/viewCV/${curri_id}`);
   };
-  if (curriToDelete) {
-    setDatos((prevDatos) =>
-      prevDatos.filter((item) => item.curri_id !== curriToDelete)
-    );
-    setCurriToDelete(null);
-  }
+
+  const handleEliminarCurriculumClick = (curri_id) => {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#555',
+      confirmButtonText: 'Sí, eliminar!',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleDeleteConfirmed(curri_id);
+      }
+    })
+  };
+  
+  const handleDeleteConfirmed = async (curri_id) => {
+    try {
+      await axios.delete(`/api/curri/${curri_id}`);
+      
+      Swal.fire(
+        'Eliminado!',
+        'El currículum ha sido eliminado.',
+        'success'
+      )
+  
+    } catch (error) {
+      console.error("Error al eliminar el currículum", error);
+      
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Algo salió mal!'
+      })
+    }
+  };
+
+  // Filtrar los datos según el término de búsqueda
+  const filteredData = datos.filter((item) =>
+    `${item.nombre} ${item.apellido}`
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -111,8 +126,6 @@ const TarjetaCurriculum = () => {
             >
               Ver Curriculum
             </button>
-
-      
           </div>
         </div>
       ))}

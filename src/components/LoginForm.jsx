@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
-import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const {
@@ -12,7 +12,6 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
 
   const router = useRouter();
   const [error, setError] = useState(null);
@@ -25,21 +24,27 @@ const Login = () => {
       redirect: false,
     });
     if (res.error) {
-      toast.error("Error al iniciar sesión")
-      setError(res.error);
+      Swal.fire({
+        icon: "error",
+        title: "Error al iniciar sesión",
+        text: res.error,
+      });
     } else {
-      toast.success("¡Exito!")
+      Swal.fire({
+        icon: "success",
+        title: "¡Éxito!",
+        text: "Has iniciado sesión correctamente",
+      });
+
       router.push("/dashboard/home");
-      router.refresh()
     }
-    console.log(res);
   });
   return (
     <div className="max-w-md mx-auto mt-20 p-6 bg-white rounded-md shadow-lg">
       <h2 className="text-2xl font-bold mb-4 text-blue-500">
         Inicio de Sesión
       </h2>
-        {error && <p className="text-red-500 text-xs m-2">{error}</p>}
+      {error && <p className="text-red-500 text-xs m-2">{error}</p>}
       <form onSubmit={onSubmit}>
         <div className="mb-4">
           <label
