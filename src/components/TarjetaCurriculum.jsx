@@ -68,7 +68,8 @@ const TarjetaCurriculum = () => {
   return (
     <div>
       <div className="flex justify-center">
-        <div className="relative mb-4">
+
+        <div className="relative mb-5">
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
               className="w-4 h-4 text-slate-500 dark:text-slate-400"
